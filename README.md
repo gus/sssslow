@@ -16,12 +16,12 @@ Now load a resource. This request will "sleep" for one second (1000 millis) and 
 > curl -si "http://localhost:11111/latency-1000/foo.js"
 
 HTTP/1.1 200 OK
+Date: Fri, 18 Jan 2013 20:33:56 GMT
 Content-Type: application/javascript
 Content-Length: 0
 Expires: Thu, 01 Jan 1970 00:00:00 GMT
 Cache-Control: no-cache, must-revalidate
-Date: Wed, 09 Jan 2013 21:57:38 GMT
-Connection: keep-alive
+Vary: Accept-Encoding
 ```
 
 This request will not sleep, but will allow the response to be cached for 1 year (22917600000 millis).
@@ -30,12 +30,12 @@ This request will not sleep, but will allow the response to be cached for 1 year
 > curl -si "http://localhost:11111/ttl-22917600000/foo.js"
 
 HTTP/1.1 200 OK
+Date: Fri, 18 Jan 2013 20:33:33 GMT
 Content-Type: application/javascript
 Content-Length: 0
-Expires: Wed, 02 Oct 2013 04:00:06 GMT
-Cache-Control: max-age=22917600
-Date: Wed, 09 Jan 2013 22:00:06 GMT
-Connection: keep-alive
+Expires: Sun, 19 Jan 2014 02:33:33 GMT
+Cache-Control: max-age=31557600
+Vary: Accept-Encoding
 ```
 
 This request will sleep for 500 millis and will allow the response to be cached for one day (86400000 millis).
@@ -44,12 +44,12 @@ This request will sleep for 500 millis and will allow the response to be cached 
 > curl -si "http://localhost:11111/latency-500/ttl-86400000/foo.js"
 
 HTTP/1.1 200 OK
+Date: Fri, 18 Jan 2013 20:32:40 GMT
 Content-Type: application/javascript
 Content-Length: 0
-Expires: Wed, 02 Oct 2013 04:00:06 GMT
-Cache-Control: max-age=22917600
-Date: Wed, 09 Jan 2013 22:00:06 GMT
-Connection: keep-alive
+Expires: Sat, 19 Jan 2013 20:32:41 GMT
+Cache-Control: max-age=86400
+Vary: Accept-Encoding
 ```
 
 Sssslow recognizes files of type `css`, `js`, and `json`. All other types will respond as `text/plain`. The `filename.ext` must come at the end of the script path.
