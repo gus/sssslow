@@ -52,5 +52,5 @@ Cache-Control: max-age=86400
 Vary: Accept-Encoding
 ```
 
-Sssslow recognizes files of type `css`, `js`, and `json`. All other types will respond as `text/plain`. The `filename.ext` must come at the end of the script path.
+Sssslow recognizes files of type `html`, `css`, `js`, and `json`. All other types will respond as `text/plain`. The `filename.ext` must come at the end of the script path.
 

@@ -14,6 +14,7 @@ TypeMap = {
   "js":        "application/javascript",
   "json":      "application/json",
   "css":       "text/css",
+  "html":      "text/html",
   "plain":     "text/plain"
 };
 
