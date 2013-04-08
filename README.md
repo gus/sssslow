@@ -10,7 +10,16 @@ Start your server:
 > node server.js 11111   # the port number to listen on
 ```
 
-Now load a resource. This request will "sleep" for one second (1000 millis) and ask the user agent not to cache results.
+Now load a resource. Sssslow support the following response modifiers:
+
+- `latency`: time it takes the server to respond
+- `time-to-live`: how long the resource can be cached for
+- `callback function name`: mainly for JavaScript requests; think jsonp
+- `content-type`: controlled through filename extension
+
+#### Examples
+
+This request will "sleep" for one second (1000 millis) and ask the user agent not to cache results.
 
 ```bash
 > curl -si "http://localhost:11111/latency-1000/foo.js"
@@ -41,16 +50,41 @@ Vary: Accept-Encoding
 This request will sleep for 500 millis and will allow the response to be cached for one day (86400000 millis).
 
 ```bash
-> curl -si "http://localhost:11111/latency-500/ttl-86400000/foo.js"
+> curl -si "http://localhost:11111/latency-500/ttl-86400000/foo.json"
 
 HTTP/1.1 200 OK
 Date: Fri, 18 Jan 2013 20:32:40 GMT
-Content-Type: application/javascript
+Content-Type: application/json
 Content-Length: 0
 Expires: Sat, 19 Jan 2013 20:32:41 GMT
 Cache-Control: max-age=86400
 Vary: Accept-Encoding
 ```
 
-Sssslow recognizes files of type `html`, `css`, `js`, and `json`. All other types will respond as `text/plain`. The `filename.ext` must come at the end of the script path.
+This request will sleep for 5s and will execute a callback function as its response body.
+
+```bash
+> curl -si "http://localhost:11111/latency-5000/callback-myFuncName/bigtime.js"
+
+HTTP/1.1 200 OK
+Date: Fri, 18 Jan 2013 20:32:40 GMT
+Content-Type: application/javascript
+Content-Length: 13
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Cache-Control: no-cache, must-revalidate
+Connection: keep-alive
+
+myFuncName();
+```
+
+Sssslow recognizes - and responds with an appropriate content-type - extensions of type:
+- `html`
+- `css`
+- `gif`
+- `jpg`, `jpeg`
+- `png`
+- `js`
+- `json`
+
+All other types will respond as `text/plain`. The `filename.ext` must come at the end of the script path.
 
